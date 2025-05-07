@@ -19,7 +19,7 @@ public record AnimatedDrawable(IMaskableDrawable drawable, Type type, int millis
 	@Override
 	public void draw(PoseStack poseStack, float xOffset, float yOffset, float maskTop, float maskBottom, float maskLeft, float maskRight) {
 		Minecraft minecraft = Minecraft.getInstance();
-		int guiScale = minecraft.getWindow().calculateScale(minecraft.options.guiScale, minecraft.isEnforceUnicode());
+		int guiScale = minecraft.getWindow().calculateScale(minecraft.options.guiScale().get(), minecraft.isEnforceUnicode());
 		float xMask = drawable.getWidth() - Math.round(System.currentTimeMillis() % millisPerCycle * guiScale * drawable.getWidth() / (float)millisPerCycle) / (float)guiScale;
 		float yMask = drawable.getHeight() - Math.round(System.currentTimeMillis() % millisPerCycle * guiScale * drawable.getHeight() / (float)millisPerCycle) / (float)guiScale;
 		switch(type) {
