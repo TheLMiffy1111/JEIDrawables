@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.ingredients.IIngredientRenderer;
+import net.minecraft.client.gui.GuiGraphics;
 import thelm.jeidrawables.JEIDrawables;
 
 public record IngredientDrawable<T>(T ingredient, Supplier<IIngredientRenderer<T>> renderer) implements IDrawable {
@@ -38,12 +39,13 @@ public record IngredientDrawable<T>(T ingredient, Supplier<IIngredientRenderer<T
 	}
 
 	@Override
-	public void draw(PoseStack poseStack, int xOffset, int yOffset) {
+	public void draw(GuiGraphics guiGraphics, int xOffset, int yOffset) {
+		PoseStack poseStack = guiGraphics.pose();
 		poseStack.pushPose();
 		poseStack.translate(xOffset, yOffset, 0);
 		RenderSystem.enableDepthTest();
 		try {
-			renderer.get().render(poseStack, ingredient);
+			renderer.get().render(guiGraphics, ingredient);
 		}
 		catch(Exception e) {}
 		RenderSystem.disableDepthTest();

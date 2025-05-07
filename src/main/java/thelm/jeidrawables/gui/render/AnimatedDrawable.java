@@ -1,8 +1,7 @@
 package thelm.jeidrawables.gui.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 
 public record AnimatedDrawable(IMaskableDrawable drawable, Type type, int millisPerCycle) implements IMaskableDrawable {
 
@@ -17,7 +16,7 @@ public record AnimatedDrawable(IMaskableDrawable drawable, Type type, int millis
 	}
 
 	@Override
-	public void draw(PoseStack poseStack, float xOffset, float yOffset, float maskTop, float maskBottom, float maskLeft, float maskRight) {
+	public void draw(GuiGraphics guiGraphics, float xOffset, float yOffset, float maskTop, float maskBottom, float maskLeft, float maskRight) {
 		Minecraft minecraft = Minecraft.getInstance();
 		int guiScale = minecraft.getWindow().calculateScale(minecraft.options.guiScale().get(), minecraft.isEnforceUnicode());
 		float xMask = drawable.getWidth() - Math.round(System.currentTimeMillis() % millisPerCycle * guiScale * drawable.getWidth() / (float)millisPerCycle) / (float)guiScale;
@@ -92,7 +91,7 @@ public record AnimatedDrawable(IMaskableDrawable drawable, Type type, int millis
 			maskTop = Math.max(maskTop - mask, 0);
 		}
 		}
-		drawable.draw(poseStack, xOffset, yOffset, maskTop, maskBottom, maskLeft, maskRight);
+		drawable.draw(guiGraphics, xOffset, yOffset, maskTop, maskBottom, maskLeft, maskRight);
 	}
 
 	@Override

@@ -1,8 +1,7 @@
 package thelm.jeidrawables.gui.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import mezz.jei.api.gui.drawable.IDrawable;
+import net.minecraft.client.gui.GuiGraphics;
 
 public record PaddedDrawable(IDrawable drawable, int padTop, int padBottom, int padLeft, int padRight) implements IDrawable {
 
@@ -17,7 +16,7 @@ public record PaddedDrawable(IDrawable drawable, int padTop, int padBottom, int 
 	}
 
 	@Override
-	public void draw(PoseStack poseStack, int xOffset, int yOffset) {
-		drawable.draw(poseStack, padLeft + xOffset, padTop + yOffset);
+	public void draw(GuiGraphics guiGraphics, int xOffset, int yOffset) {
+		drawable.draw(guiGraphics, padLeft + xOffset, padTop + yOffset);
 	}
 }

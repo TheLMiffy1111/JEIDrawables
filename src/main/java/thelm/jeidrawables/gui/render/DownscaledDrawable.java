@@ -3,6 +3,7 @@ package thelm.jeidrawables.gui.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import mezz.jei.api.gui.drawable.IDrawable;
+import net.minecraft.client.gui.GuiGraphics;
 
 public record DownscaledDrawable(IDrawable drawable, int scale) implements IDrawable {
 
@@ -17,11 +18,12 @@ public record DownscaledDrawable(IDrawable drawable, int scale) implements IDraw
 	}
 
 	@Override
-	public void draw(PoseStack poseStack, int xOffset, int yOffset) {
+	public void draw(GuiGraphics guiGraphics, int xOffset, int yOffset) {
+		PoseStack poseStack = guiGraphics.pose();
 		poseStack.pushPose();
 		poseStack.translate(xOffset, yOffset, 0);
 		poseStack.scale(1F / scale, 1F / scale, 1);
-		drawable.draw(poseStack);
+		drawable.draw(guiGraphics);
 		poseStack.popPose();
 	}
 

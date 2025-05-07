@@ -2,9 +2,8 @@ package thelm.jeidrawables.gui.render;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import mezz.jei.api.gui.drawable.IDrawable;
+import net.minecraft.client.gui.GuiGraphics;
 
 public record LayeredDrawable(List<IDrawable> drawables) implements IDrawable {
 
@@ -23,10 +22,10 @@ public record LayeredDrawable(List<IDrawable> drawables) implements IDrawable {
 	}
 
 	@Override
-	public void draw(PoseStack poseStack, int xOffset, int yOffset) {
+	public void draw(GuiGraphics guiGraphics, int xOffset, int yOffset) {
 		if(!drawables.isEmpty()) {
 			for(IDrawable drawable : drawables) {
-				drawable.draw(poseStack, xOffset, yOffset);
+				drawable.draw(guiGraphics, xOffset, yOffset);
 			}
 		}
 	}

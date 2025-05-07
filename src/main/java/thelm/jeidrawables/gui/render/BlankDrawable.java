@@ -1,6 +1,6 @@
 package thelm.jeidrawables.gui.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 public record BlankDrawable(int width, int height) implements IMaskableDrawable {
 
@@ -15,7 +15,7 @@ public record BlankDrawable(int width, int height) implements IMaskableDrawable 
 	}
 
 	@Override
-	public void draw(PoseStack poseStack, float xOffset, float yOffset, float maskTop, float maskBottom, float maskLeft, float maskRight) {}
+	public void draw(GuiGraphics guiGraphics, float xOffset, float yOffset, float maskTop, float maskBottom, float maskLeft, float maskRight) {}
 
 	@Override
 	public IMaskableDrawable trim(int trimTop, int trimBottom, int trimLeft, int trimRight) {
