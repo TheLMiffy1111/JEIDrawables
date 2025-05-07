@@ -1,5 +1,7 @@
 package thelm.jeidrawables.gui.render;
 
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -7,7 +9,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.math.Matrix4f;
 
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -30,7 +31,7 @@ public class GuiRenderUtil {
 		float uMax = sprite.getU0() + (uOffset + width) / textureWidth * spriteWidth;
 		float vMin = sprite.getV0() + vOffset / textureHeight * spriteHeight;
 		float vMax = sprite.getV0() + (vOffset + height) / textureHeight * spriteHeight;
-		blit(poseStack, sprite.atlas().location(), x, x + width, y, y + height, uMin, uMax, vMin, vMax);
+		blit(poseStack, sprite.atlasLocation(), x, x + width, y, y + height, uMin, uMax, vMin, vMax);
 	}
 
 	static void blit(PoseStack poseStack, ResourceLocation atlasLocation, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax) {
