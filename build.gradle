@@ -53,14 +53,14 @@ repositories {
 	}
 }
 
-def mcVersion = "1.20.2"
+def mcVersion = "1.20.4"
 def modName = "JEIDrawables-Fabric"
 def modId = "jeidrawables"
-def specVersion = "20.2"
+def specVersion = "20.4"
 def vendor = "thelm"
 
 group = "thelm.jeidrawables"
-version = "20.2.0"
+version = "20.4.0"
 
 archivesBaseName = modName
 
@@ -99,20 +99,20 @@ dependencies {
 	implementation "org.apache.logging.log4j:log4j-core:2.24.3"
 
 	// Minecraft
-	minecraft "com.mojang:minecraft:1.20.2"
+	minecraft "com.mojang:minecraft:1.20.4"
 	mappings loom.layered {
 		officialMojangMappings {
 			nameSyntheticMembers = false
 		}
-		parchment "org.parchmentmc.data:parchment-1.20.2:2023.12.10@zip"
+		parchment "org.parchmentmc.data:parchment-1.20.4:2024.04.14@zip"
 	}
 	modImplementation "net.fabricmc:fabric-loader:0.16.14"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:0.91.6+1.20.2"
-	modImplementation "eu.pb4:placeholder-api:2.2.1+1.20.2"
-	modImplementation "com.terraformersmc:modmenu:8.0.1"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:0.97.2+1.20.4"
+	modImplementation "eu.pb4:placeholder-api:2.4.0-pre.3+1.20.4"
+	modImplementation "com.terraformersmc:modmenu:9.2.0"
 
 	// Dependencies
-	modImplementation("mezz.jei:jei-1.20.2-fabric:16.0.0.2") {transitive = false}
+	modImplementation("mezz.jei:jei-1.20.4-fabric:17.3.1.5") {transitive = false}
 }
 
 def replacements = [
