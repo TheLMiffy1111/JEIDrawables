@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 
-public record CyclingDrawable(List<IDrawable> drawables, int millisPerDrawable) implements IDrawable {
+public record CyclingDrawable(List<? extends IDrawable> drawables, int millisPerDrawable) implements IDrawable {
 
 	public CyclingDrawable(int millisPerDrawable, IDrawable... drawables) {
 		this(List.of(drawables), millisPerDrawable);
