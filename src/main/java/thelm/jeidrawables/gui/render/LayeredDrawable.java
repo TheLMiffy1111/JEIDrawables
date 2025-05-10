@@ -5,7 +5,7 @@ import java.util.List;
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.client.gui.GuiGraphics;
 
-public record LayeredDrawable(List<IDrawable> drawables) implements IDrawable {
+public record LayeredDrawable(List<? extends IDrawable> drawables) implements IDrawable {
 
 	public LayeredDrawable(IDrawable... drawables) {
 		this(List.of(drawables));
