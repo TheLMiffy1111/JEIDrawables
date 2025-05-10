@@ -5,7 +5,7 @@ import java.util.List;
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.client.gui.GuiGraphics;
 
-public record CyclingDrawable(List<IDrawable> drawables, int millisPerDrawable) implements IDrawable {
+public record CyclingDrawable(List<? extends IDrawable> drawables, int millisPerDrawable) implements IDrawable {
 
 	public CyclingDrawable(int millisPerDrawable, IDrawable... drawables) {
 		this(List.of(drawables), millisPerDrawable);
