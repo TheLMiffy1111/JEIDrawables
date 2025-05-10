@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 
-public record LayeredDrawable(List<IDrawable> drawables) implements IDrawable {
+public record LayeredDrawable(List<? extends IDrawable> drawables) implements IDrawable {
 
 	public LayeredDrawable(IDrawable... drawables) {
 		this(List.of(drawables));
