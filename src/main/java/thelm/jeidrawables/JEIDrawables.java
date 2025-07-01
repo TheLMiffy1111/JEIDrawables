@@ -1,6 +1,7 @@
 package thelm.jeidrawables;
 
 import mezz.jei.api.IModPlugin;
+import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.runtime.IIngredientManager;
 import mezz.jei.api.runtime.IJeiRuntime;
@@ -10,6 +11,7 @@ import thelm.jeidrawables.gui.render.DownscaledDrawable;
 import thelm.jeidrawables.gui.render.LayeredDrawable;
 import thelm.jeidrawables.gui.render.ResourceDrawable;
 
+@JeiPlugin
 public class JEIDrawables implements IModPlugin {
 
 	public static final ResourceLocation UID = ResourceLocation.tryParse("jeidrawables:plugin");

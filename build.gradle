@@ -24,26 +24,6 @@ repositories {
 	exclusiveContent {
 		forRepository {
 			maven {
-				url = "https://maven.nucleoid.xyz/"
-			}
-		}
-		filter {
-			includeGroup "eu.pb4"
-		}
-	}
-	exclusiveContent {
-		forRepository {
-			maven {
-				url = "https://maven.terraformersmc.com/"
-			}
-		}
-		filter {
-			includeGroup "com.terraformersmc"
-		}
-	}
-	exclusiveContent {
-		forRepository {
-			maven {
 				url = "https://maven.blamejared.com/"
 			}
 		}
@@ -51,10 +31,20 @@ repositories {
 			includeGroup "mezz.jei"
 		}
 	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://cursemaven.com/"
+			}
+		}
+		filter {
+			includeGroup "curse.maven"
+		}
+	}
 }
 
 def mcVersion = "1.21.1"
-def modName = "JEIDrawables-Fabric"
+def modName = "JEIDrawables-NeoForge"
 def modId = "jeidrawables"
 def specVersion = "21.1"
 def vendor = "thelm"
@@ -82,14 +72,11 @@ tasks.withType(JavaCompile).configureEach {
 
 loom {
 	silentMojangMappingsLicense()
-	mixin.defaultRefmapName = "${modId}.refmap.json"
 	runs {
 		configureEach {
-			property "fabric.log.console.level", "debug"
+			property "forge.logging.console.level", "debug"
 		}
-		client {
-			programArg "--username=Dev"
-		}
+		client
 		server
 	}
 }
@@ -101,18 +88,13 @@ dependencies {
 	// Minecraft
 	minecraft "com.mojang:minecraft:1.21.1"
 	mappings loom.layered {
-		officialMojangMappings {
-			nameSyntheticMembers = false
-		}
+		officialMojangMappings()
 		parchment "org.parchmentmc.data:parchment-1.21.1:2024.11.17@zip"
 	}
-	modImplementation "net.fabricmc:fabric-loader:0.16.14"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:0.115.6+1.21.1"
-	modImplementation "eu.pb4:placeholder-api:2.4.2+1.21"
-	modImplementation "com.terraformersmc:modmenu:11.0.3"
+	neoForge "net.neoforged:neoforge:21.1.180"
 
 	// Dependencies
-	modImplementation("mezz.jei:jei-1.21.1-fabric:19.21.1.305") {transitive = false}
+	implementation("mezz.jei:jei-1.21.1-neoforge:19.21.2.313") {transitive = false}
 }
 
 def replacements = [
@@ -125,7 +107,7 @@ blossom {
 
 processResources {
 	inputs.properties(replacements)
-	filesMatching(["fabric.mod.json"]) {
+	filesMatching(["mcmod.info", "META-INF/mods.toml", "META-INF/neoforge.mods.toml"]) {
 		filter {
 			it.replace(replacements)
 		}
@@ -154,7 +136,7 @@ publishing {
 		register("mavenJava", MavenPublication) {
 			artifactId = archivesBaseName
 			artifact remapJar
-			artifact remapSourcesJar
+			artifact sourcesJar
 		}
 	}
 	repositories {
