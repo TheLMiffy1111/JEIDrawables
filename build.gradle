@@ -50,7 +50,7 @@ def specVersion = "21.1"
 def vendor = "thelm"
 
 group = "thelm.jeidrawables"
-version = "21.1.1"
+version = "21.1.2"
 
 archivesBaseName = modName
 
@@ -91,10 +91,10 @@ dependencies {
 		officialMojangMappings()
 		parchment "org.parchmentmc.data:parchment-1.21.1:2024.11.17@zip"
 	}
-	neoForge "net.neoforged:neoforge:21.1.180"
+	neoForge "net.neoforged:neoforge:21.1.194"
 
 	// Dependencies
-	implementation("mezz.jei:jei-1.21.1-neoforge:19.21.2.313") {transitive = false}
+	implementation("mezz.jei:jei-1.21.1-neoforge:19.22.0.315") {transitive = false}
 }
 
 def replacements = [
