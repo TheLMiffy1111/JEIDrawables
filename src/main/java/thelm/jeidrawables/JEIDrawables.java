@@ -1,11 +1,21 @@
 package thelm.jeidrawables;
 
+import java.util.List;
+
+import com.mojang.datafixers.util.Either;
+
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IRecipeSlotRichTooltipCallback;
 import mezz.jei.api.runtime.IIngredientManager;
 import mezz.jei.api.runtime.IJeiRuntime;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import thelm.jeidrawables.gui.render.AnimatedDrawable;
 import thelm.jeidrawables.gui.render.DownscaledDrawable;
 import thelm.jeidrawables.gui.render.LayeredDrawable;
@@ -63,5 +73,21 @@ public class JEIDrawables implements IModPlugin {
 		else {
 			return FLAME;
 		}
+	}
+
+	public static IRecipeSlotRichTooltipCallback appendFraction(long fraction) {
+		return (recipeSlotView, tooltip) -> {
+			if(fraction > 0) {
+				List<Either<FormattedText, TooltipComponent>> lines = tooltip.getLines();
+				for(int i = 0; i < lines.size(); ++i) {
+					if(lines.get(i).left().orElse(null) instanceof Component component &&
+							component.getContents() instanceof TranslatableContents contents &&
+							"jei.tooltip.liquid.amount".equals(contents.getKey())) {
+						lines.add(i + 1, Either.left(Component.translatable("jeidrawables.tooltip.liquid.fraction", fraction).withStyle(ChatFormatting.GRAY)));
+						return;
+					}
+				}
+			}
+		};
 	}
 }
