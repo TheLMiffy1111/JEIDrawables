@@ -2,8 +2,11 @@ package thelm.jeidrawables;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
 import mezz.jei.api.runtime.IIngredientManager;
 import mezz.jei.api.runtime.IJeiRuntime;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import thelm.jeidrawables.gui.render.AnimatedDrawable;
 import thelm.jeidrawables.gui.render.DownscaledDrawable;
@@ -61,5 +64,18 @@ public class JEIDrawables implements IModPlugin {
 		else {
 			return FLAME;
 		}
+	}
+
+	public static IRecipeSlotTooltipCallback appendFraction(long fraction) {
+		return (recipeSlotView, tooltip) -> {
+			if(fraction > 0) {
+				for(int i = 0; i < tooltip.size(); ++i) {
+					if(tooltip.get(i) instanceof TranslatableComponent component && "jei.tooltip.liquid.amount".equals(component.getKey())) {
+						tooltip.add(i + 1, new TranslatableComponent("jeidrawables.tooltip.liquid.fraction", fraction).withStyle(ChatFormatting.GRAY));
+						return;
+					}
+				}
+			}
+		};
 	}
 }
