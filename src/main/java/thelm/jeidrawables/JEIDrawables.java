@@ -16,9 +16,9 @@ import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import thelm.jeidrawables.gui.render.AnimatedDrawable;
-import thelm.jeidrawables.gui.render.DownscaledDrawable;
 import thelm.jeidrawables.gui.render.LayeredDrawable;
 import thelm.jeidrawables.gui.render.ResourceDrawable;
+import thelm.jeidrawables.gui.render.ScaledDrawable;
 
 public class JEIDrawables implements IModPlugin {
 
@@ -34,7 +34,7 @@ public class JEIDrawables implements IModPlugin {
 	public static final ResourceDrawable RECIPE_ARROW = new ResourceDrawable(ELEMENTS, 44, 0, 22, 16);
 	public static final ResourceDrawable RECIPE_ARROW_FILLED = new ResourceDrawable(ELEMENTS, 66, 0, 22, 16);
 	public static final ResourceDrawable RECIPE_PLUS_SIGN = new ResourceDrawable(ELEMENTS, 66, 0, 13, 13);
-	public static final IDrawable SHAPELESS_ICON = new DownscaledDrawable(new ResourceDrawable(ELEMENTS, 101, 0, 36, 36), 4);
+	public static final IDrawable SHAPELESS_ICON = new ScaledDrawable(new ResourceDrawable(ELEMENTS, 101, 0, 36, 36), 0.25F);
 	public static final ResourceDrawable ARROW_NEXT = new ResourceDrawable(ELEMENTS, 137, 0, 9, 9);
 	public static final ResourceDrawable ARROW_PREVIOUS = new ResourceDrawable(ELEMENTS, 146, 0, 9, 9);
 	public static final ResourceDrawable INFO = new ResourceDrawable(ELEMENTS, 155, 0, 16, 16);
