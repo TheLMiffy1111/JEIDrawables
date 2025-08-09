@@ -4,17 +4,22 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.util.Mth;
 
-public record DownscaledDrawable(IDrawable drawable, int scale) implements IDrawable {
+public record ScaledDrawable(IDrawable drawable, float widthScale, float heightScale) implements IDrawable {
+
+	public ScaledDrawable(IDrawable drawable, float scale) {
+		this(drawable, scale, scale);	
+	}
 
 	@Override
 	public int getWidth() {
-		return ceilDiv(drawable.getWidth(), scale);
+		return Mth.ceil(drawable.getWidth() * widthScale - Mth.EPSILON);
 	}
 
 	@Override
 	public int getHeight() {
-		return ceilDiv(drawable.getHeight(), scale);
+		return Mth.ceil(drawable.getHeight() * heightScale - Mth.EPSILON);
 	}
 
 	@Override
@@ -22,12 +27,8 @@ public record DownscaledDrawable(IDrawable drawable, int scale) implements IDraw
 		PoseStack poseStack = guiGraphics.pose();
 		poseStack.pushPose();
 		poseStack.translate(xOffset, yOffset, 0);
-		poseStack.scale(1F / scale, 1F / scale, 1);
+		poseStack.scale(widthScale, heightScale, 1);
 		drawable.draw(guiGraphics);
 		poseStack.popPose();
-	}
-
-	public static int ceilDiv(int x, int y){
-		return -Math.floorDiv(-x, y);
 	}
 }
