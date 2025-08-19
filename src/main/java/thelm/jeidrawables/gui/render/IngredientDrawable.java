@@ -43,12 +43,10 @@ public record IngredientDrawable<T>(T ingredient, Supplier<IIngredientRenderer<T
 		PoseStack poseStack = guiGraphics.pose();
 		poseStack.pushPose();
 		poseStack.translate(xOffset, yOffset, 0);
-		RenderSystem.enableDepthTest();
 		try {
 			renderer.get().render(guiGraphics, ingredient);
 		}
 		catch(Exception e) {}
-		RenderSystem.disableDepthTest();
 		poseStack.popPose();
 	}
 }

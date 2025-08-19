@@ -2,17 +2,14 @@ package thelm.jeidrawables.gui.render;
 
 import org.joml.Matrix4f;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import thelm.jeidrawables.mixin.GuiGraphicsAccessor;
 
 public class GuiRenderUtil {
 
@@ -35,14 +32,13 @@ public class GuiRenderUtil {
 	}
 
 	static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax) {
-		RenderSystem.setShaderTexture(0, atlasLocation);
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderType renderType = RenderType.guiTextured(atlasLocation);
 		Matrix4f matrix = guiGraphics.pose().last().pose();
-		BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		bufferBuilder.addVertex(matrix, xMin, yMin, 0).setUv(uMin, vMin);
-		bufferBuilder.addVertex(matrix, xMin, yMax, 0).setUv(uMin, vMax);
-		bufferBuilder.addVertex(matrix, xMax, yMax, 0).setUv(uMax, vMax);
-		bufferBuilder.addVertex(matrix, xMax, yMin, 0).setUv(uMax, vMin);
-		BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
+		BufferSource bufferSource = ((GuiGraphicsAccessor)guiGraphics).jeidas$bufferSource();
+		VertexConsumer vertexConsumer = bufferSource.getBuffer(renderType);
+		vertexConsumer.addVertex(matrix, xMin, yMin, 0).setUv(uMin, vMin);
+		vertexConsumer.addVertex(matrix, xMin, yMax, 0).setUv(uMin, vMax);
+		vertexConsumer.addVertex(matrix, xMax, yMax, 0).setUv(uMax, vMax);
+		vertexConsumer.addVertex(matrix, xMax, yMin, 0).setUv(uMax, vMin);
 	}
 }
