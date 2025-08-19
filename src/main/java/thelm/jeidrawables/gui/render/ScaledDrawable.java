@@ -1,6 +1,6 @@
 package thelm.jeidrawables.gui.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import org.joml.Matrix3x2fStack;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.client.gui.GuiGraphics;
@@ -24,11 +24,11 @@ public record ScaledDrawable(IDrawable drawable, float widthScale, float heightS
 
 	@Override
 	public void draw(GuiGraphics guiGraphics, int xOffset, int yOffset) {
-		PoseStack poseStack = guiGraphics.pose();
-		poseStack.pushPose();
-		poseStack.translate(xOffset, yOffset, 0);
-		poseStack.scale(widthScale, heightScale, 1);
+		Matrix3x2fStack pose = guiGraphics.pose();
+		pose.pushMatrix();
+		pose.translate(xOffset, yOffset);
+		pose.scale(widthScale, heightScale);
 		drawable.draw(guiGraphics);
-		poseStack.popPose();
+		pose.popMatrix();
 	}
 }

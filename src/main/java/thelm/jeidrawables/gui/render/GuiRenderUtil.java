@@ -1,14 +1,23 @@
 package thelm.jeidrawables.gui.render;
 
-import org.joml.Matrix4f;
+import org.joml.Matrix3x2f;
+import org.joml.Vector2f;
 
+import com.google.common.primitives.Floats;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.gui.render.state.GuiElementRenderState;
+import net.minecraft.client.gui.render.state.GuiRenderState;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import thelm.jeidrawables.mixin.GuiGraphicsAccessor;
 
 public class GuiRenderUtil {
@@ -32,13 +41,37 @@ public class GuiRenderUtil {
 	}
 
 	static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax) {
-		RenderType renderType = RenderType.guiTextured(atlasLocation);
-		Matrix4f matrix = guiGraphics.pose().last().pose();
-		BufferSource bufferSource = ((GuiGraphicsAccessor)guiGraphics).jeidas$bufferSource();
-		VertexConsumer vertexConsumer = bufferSource.getBuffer(renderType);
-		vertexConsumer.addVertex(matrix, xMin, yMin, 0).setUv(uMin, vMin);
-		vertexConsumer.addVertex(matrix, xMin, yMax, 0).setUv(uMin, vMax);
-		vertexConsumer.addVertex(matrix, xMax, yMax, 0).setUv(uMax, vMax);
-		vertexConsumer.addVertex(matrix, xMax, yMin, 0).setUv(uMax, vMin);
+		GuiRenderState renderState = ((GuiGraphicsAccessor)guiGraphics).jeidas$guiRenderState();
+		GpuTextureView gpuTextureView = Minecraft.getInstance().getTextureManager().getTexture(atlasLocation).getTextureView();
+		renderState.submitGuiElement(new BlitRenderState(RenderPipelines.GUI_TEXTURED, TextureSetup.singleTexture(gpuTextureView), guiGraphics.pose(), xMin, xMax, yMin, yMax, uMin, uMax, vMin, vMax));
+	}
+
+	public static record BlitRenderState(RenderPipeline pipeline, TextureSetup textureSetup, Matrix3x2f pose, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax) implements GuiElementRenderState {
+
+		@Override
+		public void buildVertices(VertexConsumer consumer, float z) {
+			consumer.addVertexWith2DPose(pose, xMin, yMin, z).setUv(uMin, vMin);
+			consumer.addVertexWith2DPose(pose, xMin, yMax, z).setUv(uMin, vMax);
+			consumer.addVertexWith2DPose(pose, xMax, yMax, z).setUv(uMax, vMax);
+			consumer.addVertexWith2DPose(pose, xMax, yMin, z).setUv(uMax, vMin);
+		}
+
+		@Override
+		public ScreenRectangle scissorArea() {
+			return null;
+		}
+
+		@Override
+		public ScreenRectangle bounds() {
+			Vector2f x0y0 = pose.transformPosition(xMin, yMin, new Vector2f());
+			Vector2f x1y0 = pose.transformPosition(xMax, yMin, new Vector2f());
+			Vector2f x0y1 = pose.transformPosition(xMin, yMax, new Vector2f());
+			Vector2f x1y1 = pose.transformPosition(xMax, yMax, new Vector2f());
+			int ixMin = Mth.floor(Floats.min(x0y0.x(), x0y1.x(), x1y0.x(), x1y1.x()) + Mth.EPSILON);
+			int ixMax = Mth.ceil(Floats.max(x0y0.x(), x0y1.x(), x1y0.x(), x1y1.x()) - Mth.EPSILON);
+			int iyMin = Mth.floor(Floats.min(x0y0.y(), x0y1.y(), x1y0.y(), x1y1.y()) + Mth.EPSILON);
+			int iyMax = Mth.ceil(Floats.max(x0y0.y(), x0y1.y(), x1y0.y(), x1y1.y()) - Mth.EPSILON);
+			return new ScreenRectangle(ixMin, iyMin, ixMax - ixMin, iyMax - iyMin);
+		}
 	}
 }

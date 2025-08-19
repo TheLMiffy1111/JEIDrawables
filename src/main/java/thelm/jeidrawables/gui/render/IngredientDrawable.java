@@ -3,9 +3,9 @@ package thelm.jeidrawables.gui.render;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import org.joml.Matrix3x2fStack;
+
 import com.google.common.base.Suppliers;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.ingredients.IIngredientRenderer;
@@ -40,13 +40,13 @@ public record IngredientDrawable<T>(T ingredient, Supplier<IIngredientRenderer<T
 
 	@Override
 	public void draw(GuiGraphics guiGraphics, int xOffset, int yOffset) {
-		PoseStack poseStack = guiGraphics.pose();
-		poseStack.pushPose();
-		poseStack.translate(xOffset, yOffset, 0);
+		Matrix3x2fStack pose = guiGraphics.pose();
+		pose.pushMatrix();
+		pose.translate(xOffset, yOffset);
 		try {
 			renderer.get().render(guiGraphics, ingredient);
 		}
 		catch(Exception e) {}
-		poseStack.popPose();
+		pose.popMatrix();
 	}
 }
