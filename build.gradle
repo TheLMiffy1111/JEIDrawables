@@ -113,7 +113,7 @@ dependencies {
 	modImplementation "com.terraformersmc:modmenu:7.2.2"
 
 	// Dependencies
-	modImplementation("mezz.jei:jei-1.20.1-fabric:15.20.0.112") {transitive = false}
+	modImplementation("mezz.jei:jei-1.20.1-fabric:15.20.0.116") {transitive = false}
 }
 
 def replacements = [
