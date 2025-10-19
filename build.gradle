@@ -108,12 +108,12 @@ dependencies {
 		parchment "org.parchmentmc.data:parchment-1.21.1:2024.11.17@zip"
 	}
 	modImplementation "net.fabricmc:fabric-loader:0.17.2"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:0.116.5+1.21.1"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:0.116.7+1.21.1"
 	modImplementation "eu.pb4:placeholder-api:2.4.2+1.21"
 	modImplementation "com.terraformersmc:modmenu:11.0.3"
 
 	// Dependencies
-	modImplementation("mezz.jei:jei-1.21.1-fabric:19.22.1.316") {transitive = false}
+	modImplementation("mezz.jei:jei-1.21.1-fabric:19.25.0.322") {transitive = false}
 }
 
 def replacements = [
