@@ -23,7 +23,7 @@
 		"jeidrawables.mixins.json"
 	],
 	"depends": {
-		"minecraft": ">=1.21.6- <1.21.8-",
+		"minecraft": ">=1.21.8- <1.21.11-",
 		"jei": "*"
 	},
 	"custom": {

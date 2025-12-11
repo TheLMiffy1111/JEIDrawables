@@ -49,11 +49,11 @@ public class GuiRenderUtil {
 	public static record BlitRenderState(RenderPipeline pipeline, TextureSetup textureSetup, Matrix3x2f pose, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax) implements GuiElementRenderState {
 
 		@Override
-		public void buildVertices(VertexConsumer consumer, float z) {
-			consumer.addVertexWith2DPose(pose, xMin, yMin, z).setUv(uMin, vMin);
-			consumer.addVertexWith2DPose(pose, xMin, yMax, z).setUv(uMin, vMax);
-			consumer.addVertexWith2DPose(pose, xMax, yMax, z).setUv(uMax, vMax);
-			consumer.addVertexWith2DPose(pose, xMax, yMin, z).setUv(uMax, vMin);
+		public void buildVertices(VertexConsumer consumer) {
+			consumer.addVertexWith2DPose(pose, xMin, yMin).setUv(uMin, vMin);
+			consumer.addVertexWith2DPose(pose, xMin, yMax).setUv(uMin, vMax);
+			consumer.addVertexWith2DPose(pose, xMax, yMax).setUv(uMax, vMax);
+			consumer.addVertexWith2DPose(pose, xMax, yMin).setUv(uMax, vMin);
 		}
 
 		@Override
