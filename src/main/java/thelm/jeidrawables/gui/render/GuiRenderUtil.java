@@ -43,7 +43,7 @@ public class GuiRenderUtil {
 	static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax, int color) {
 		GuiRenderState renderState = ((GuiGraphicsAccessor)guiGraphics).jeidas$guiRenderState();
 		GpuTextureView gpuTextureView = Minecraft.getInstance().getTextureManager().getTexture(atlasLocation).getTextureView();
-		renderState.submitGuiElement(new BlitRenderState(RenderPipelines.GUI_TEXTURED, TextureSetup.singleTexture(gpuTextureView), guiGraphics.pose(), xMin, xMax, yMin, yMax, uMin, uMax, vMin, vMax, color));
+		renderState.submitGuiElement(new BlitRenderState(RenderPipelines.GUI_TEXTURED, TextureSetup.singleTexture(gpuTextureView), new Matrix3x2f(guiGraphics.pose()), xMin, xMax, yMin, yMax, uMin, uMax, vMin, vMax, color));
 	}
 
 	public static record BlitRenderState(RenderPipeline pipeline, TextureSetup textureSetup, Matrix3x2f pose, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax, int color) implements GuiElementRenderState {
