@@ -106,7 +106,7 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:0.18.1"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:0.128.2+1.21.5"
 	modImplementation "eu.pb4:placeholder-api:2.6.4+1.21.5"
-	modImplementation "com.terraformersmc:modmenu:14.0.0-rc.2"
+	modImplementation "com.terraformersmc:modmenu:14.0.0"
 
 	// Dependencies
 	modImplementation("mezz.jei:jei-1.21.5-fabric:21.4.0.27") {transitive = false}
