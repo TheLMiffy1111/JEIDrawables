@@ -3,10 +3,18 @@ package thelm.jeidrawables.gui.render;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
-public record ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight) implements IMaskableDrawable {
+public record ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight, int color) implements IMaskableDrawable {
+
+	public ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight) {
+		this(atlasLocation, u, v, width, height, textureWidth, textureHeight, -1);
+	}
+
+	public ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int color) {
+		this(atlasLocation, u, v, width, height, 256, 256, color);
+	}
 
 	public ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height) {
-		this(atlasLocation, u, v, width, height, 256, 256);
+		this(atlasLocation, u, v, width, height, 256, 256, -1);
 	}
 
 	@Override
@@ -22,7 +30,7 @@ public record ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int
 	@Override
 	public void draw(GuiGraphics guiGraphics, float xOffset, float yOffset, float maskTop, float maskBottom, float maskLeft, float maskRight) {
 		if(maskLeft + maskRight < width && maskTop + maskBottom < height) {
-			GuiRenderUtil.blit(guiGraphics, atlasLocation, xOffset + maskLeft, yOffset + maskTop, u + maskLeft, v + maskTop, width - maskLeft - maskRight, height - maskTop - maskBottom, textureWidth, textureHeight);
+			GuiRenderUtil.blit(guiGraphics, atlasLocation, xOffset + maskLeft, yOffset + maskTop, u + maskLeft, v + maskTop, width - maskLeft - maskRight, height - maskTop - maskBottom, textureWidth, textureHeight, color);
 		}
 	}
 

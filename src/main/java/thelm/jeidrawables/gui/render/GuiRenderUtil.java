@@ -22,38 +22,38 @@ import thelm.jeidrawables.mixin.GuiGraphicsAccessor;
 
 public class GuiRenderUtil {
 
-	public static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, float x, float y, float uOffset, float vOffset, float width, float height, int textureWidth, int textureHeight) {
+	public static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, float x, float y, float uOffset, float vOffset, float width, float height, int textureWidth, int textureHeight, int color) {
 		float uMin = uOffset / textureWidth;
 		float uMax = (uOffset + width) / textureWidth;
 		float vMin = vOffset / textureHeight;
 		float vMax = (vOffset + height) / textureHeight;
-		blit(guiGraphics, atlasLocation, x, x + width, y, y + height, uMin, uMax, vMin, vMax);
+		blit(guiGraphics, atlasLocation, x, x + width, y, y + height, uMin, uMax, vMin, vMax, color);
 	}
 
-	public static void blitSprite(GuiGraphics guiGraphics, TextureAtlasSprite sprite, float x, float y, float uOffset, float vOffset, float width, float height, int textureWidth, int textureHeight) {
+	public static void blitSprite(GuiGraphics guiGraphics, TextureAtlasSprite sprite, float x, float y, float uOffset, float vOffset, float width, float height, int textureWidth, int textureHeight, int color) {
 		float spriteWidth = sprite.getU1() - sprite.getU0();
 		float spriteHeight = sprite.getV1() - sprite.getV0();
 		float uMin = sprite.getU0() + uOffset / textureWidth * spriteWidth;
 		float uMax = sprite.getU0() + (uOffset + width) / textureWidth * spriteWidth;
 		float vMin = sprite.getV0() + vOffset / textureHeight * spriteHeight;
 		float vMax = sprite.getV0() + (vOffset + height) / textureHeight * spriteHeight;
-		blit(guiGraphics, sprite.atlasLocation(), x, x + width, y, y + height, uMin, uMax, vMin, vMax);
+		blit(guiGraphics, sprite.atlasLocation(), x, x + width, y, y + height, uMin, uMax, vMin, vMax, color);
 	}
 
-	static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax) {
+	static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax, int color) {
 		GuiRenderState renderState = ((GuiGraphicsAccessor)guiGraphics).jeidas$guiRenderState();
 		GpuTextureView gpuTextureView = Minecraft.getInstance().getTextureManager().getTexture(atlasLocation).getTextureView();
-		renderState.submitGuiElement(new BlitRenderState(RenderPipelines.GUI_TEXTURED, TextureSetup.singleTexture(gpuTextureView), guiGraphics.pose(), xMin, xMax, yMin, yMax, uMin, uMax, vMin, vMax));
+		renderState.submitGuiElement(new BlitRenderState(RenderPipelines.GUI_TEXTURED, TextureSetup.singleTexture(gpuTextureView), guiGraphics.pose(), xMin, xMax, yMin, yMax, uMin, uMax, vMin, vMax, color));
 	}
 
-	public static record BlitRenderState(RenderPipeline pipeline, TextureSetup textureSetup, Matrix3x2f pose, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax) implements GuiElementRenderState {
+	public static record BlitRenderState(RenderPipeline pipeline, TextureSetup textureSetup, Matrix3x2f pose, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax, int color) implements GuiElementRenderState {
 
 		@Override
 		public void buildVertices(VertexConsumer consumer, float z) {
-			consumer.addVertexWith2DPose(pose, xMin, yMin, z).setUv(uMin, vMin);
-			consumer.addVertexWith2DPose(pose, xMin, yMax, z).setUv(uMin, vMax);
-			consumer.addVertexWith2DPose(pose, xMax, yMax, z).setUv(uMax, vMax);
-			consumer.addVertexWith2DPose(pose, xMax, yMin, z).setUv(uMax, vMin);
+			consumer.addVertexWith2DPose(pose, xMin, yMin, z).setUv(uMin, vMin).setColor(color);
+			consumer.addVertexWith2DPose(pose, xMin, yMax, z).setUv(uMin, vMax).setColor(color);
+			consumer.addVertexWith2DPose(pose, xMax, yMax, z).setUv(uMax, vMax).setColor(color);
+			consumer.addVertexWith2DPose(pose, xMax, yMin, z).setUv(uMax, vMin).setColor(color);
 		}
 
 		@Override
