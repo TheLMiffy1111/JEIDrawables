@@ -1,19 +1,19 @@
 package thelm.jeidrawables.gui.render;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public record ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight, int color) implements IMaskableDrawable {
+public record ResourceDrawable(Identifier atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight, int color) implements IMaskableDrawable {
 
-	public ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight) {
+	public ResourceDrawable(Identifier atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight) {
 		this(atlasLocation, u, v, width, height, textureWidth, textureHeight, -1);
 	}
 
-	public ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int color) {
+	public ResourceDrawable(Identifier atlasLocation, int u, int v, int width, int height, int color) {
 		this(atlasLocation, u, v, width, height, 256, 256, color);
 	}
 
-	public ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height) {
+	public ResourceDrawable(Identifier atlasLocation, int u, int v, int width, int height) {
 		this(atlasLocation, u, v, width, height, 256, 256, -1);
 	}
 

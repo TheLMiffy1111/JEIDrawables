@@ -13,7 +13,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.contents.TranslatableContents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import thelm.jeidrawables.gui.render.AnimatedDrawable;
 import thelm.jeidrawables.gui.render.LayeredDrawable;
@@ -22,12 +22,12 @@ import thelm.jeidrawables.gui.render.ScaledDrawable;
 
 public class JEIDrawables implements IModPlugin {
 
-	public static final ResourceLocation UID = ResourceLocation.tryParse("jeidrawables:plugin");
+	public static final Identifier UID = Identifier.tryParse("jeidrawables:plugin");
 
 	public static IIngredientManager ingredientManager;
 	public static IJeiRuntime jeiRuntime;
 
-	public static final ResourceLocation ELEMENTS = ResourceLocation.tryParse("jeidrawables:textures/gui/elements.png");
+	public static final Identifier ELEMENTS = Identifier.tryParse("jeidrawables:textures/gui/elements.png");
 
 	public static final ResourceDrawable SLOT = new ResourceDrawable(ELEMENTS, 0, 0, 18, 18);
 	public static final ResourceDrawable OUTPUT_SLOT = new ResourceDrawable(ELEMENTS, 18, 0, 26, 26);
@@ -42,7 +42,7 @@ public class JEIDrawables implements IModPlugin {
 	public static final ResourceDrawable FLAME_EMPTY = new ResourceDrawable(ELEMENTS, 185, 0, 14, 14);
 
 	@Override
-	public ResourceLocation getPluginUid() {
+	public Identifier getPluginUid() {
 		return UID;
 	}
 

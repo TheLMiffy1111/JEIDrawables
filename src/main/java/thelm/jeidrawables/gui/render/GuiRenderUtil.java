@@ -5,7 +5,6 @@ import org.joml.Vector2f;
 
 import com.google.common.primitives.Floats;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
@@ -15,14 +14,15 @@ import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.gui.render.state.GuiRenderState;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import thelm.jeidrawables.mixin.GuiGraphicsAccessor;
 
 public class GuiRenderUtil {
 
-	public static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, float x, float y, float uOffset, float vOffset, float width, float height, int textureWidth, int textureHeight, int color) {
+	public static void blit(GuiGraphics guiGraphics, Identifier atlasLocation, float x, float y, float uOffset, float vOffset, float width, float height, int textureWidth, int textureHeight, int color) {
 		float uMin = uOffset / textureWidth;
 		float uMax = (uOffset + width) / textureWidth;
 		float vMin = vOffset / textureHeight;
@@ -40,10 +40,10 @@ public class GuiRenderUtil {
 		blit(guiGraphics, sprite.atlasLocation(), x, x + width, y, y + height, uMin, uMax, vMin, vMax, color);
 	}
 
-	static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax, int color) {
+	static void blit(GuiGraphics guiGraphics, Identifier atlasLocation, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax, int color) {
 		GuiRenderState renderState = ((GuiGraphicsAccessor)guiGraphics).jeidas$guiRenderState();
-		GpuTextureView gpuTextureView = Minecraft.getInstance().getTextureManager().getTexture(atlasLocation).getTextureView();
-		renderState.submitGuiElement(new BlitRenderState(RenderPipelines.GUI_TEXTURED, TextureSetup.singleTexture(gpuTextureView), new Matrix3x2f(guiGraphics.pose()), xMin, xMax, yMin, yMax, uMin, uMax, vMin, vMax, color));
+		AbstractTexture texture = Minecraft.getInstance().getTextureManager().getTexture(atlasLocation);
+		renderState.submitGuiElement(new BlitRenderState(RenderPipelines.GUI_TEXTURED, TextureSetup.singleTexture(texture.getTextureView(), texture.getSampler()), new Matrix3x2f(guiGraphics.pose()), xMin, xMax, yMin, yMax, uMin, uMax, vMin, vMax, color));
 	}
 
 	public static record BlitRenderState(RenderPipeline pipeline, TextureSetup textureSetup, Matrix3x2f pose, float xMin, float xMax, float yMin, float yMax, float uMin, float uMax, float vMin, float vMax, int color) implements GuiElementRenderState {
