@@ -41,6 +41,6 @@ public record ResourceDrawable(Identifier atlasLocation, int u, int v, int width
 		if(newWidth == 0 || newHeight == 0) {
 			return new BlankDrawable(newWidth, newHeight);
 		}
-		return new ResourceDrawable(atlasLocation, u + trimLeft, v + trimTop, newWidth, newHeight, textureWidth, textureHeight);
+		return new ResourceDrawable(atlasLocation, u + trimLeft, v + trimTop, newWidth, newHeight, textureWidth, textureHeight, color);
 	}
 }

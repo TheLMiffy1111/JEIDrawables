@@ -43,6 +43,6 @@ public record SpriteDrawable(Supplier<TextureAtlasSprite> spriteSupplier, int u,
 		if(newWidth == 0 || newHeight == 0) {
 			return new BlankDrawable(newWidth, newHeight);
 		}
-		return new SpriteDrawable(spriteSupplier, u + trimLeft, v + trimTop, newWidth, newHeight, textureWidth, textureHeight);
+		return new SpriteDrawable(spriteSupplier, u + trimLeft, v + trimTop, newWidth, newHeight, textureWidth, textureHeight, color);
 	}
 }
