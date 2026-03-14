@@ -2,7 +2,7 @@ package thelm.jeidrawables.gui.render;
 
 import net.minecraft.client.gui.GuiGraphics;
 
-public record BlankDrawable(int width, int height) implements IMaskableDrawable {
+public record BlankDrawable(int width, int height) implements ITextureDrawable {
 
 	@Override
 	public int getWidth() {
@@ -18,9 +18,24 @@ public record BlankDrawable(int width, int height) implements IMaskableDrawable 
 	public void draw(GuiGraphics guiGraphics, float xOffset, float yOffset, float maskTop, float maskBottom, float maskLeft, float maskRight) {}
 
 	@Override
-	public IMaskableDrawable trim(int trimTop, int trimBottom, int trimLeft, int trimRight) {
+	public ITextureDrawable trim(int trimTop, int trimBottom, int trimLeft, int trimRight) {
 		int newWidth = Math.max(width - trimLeft - trimRight, 0);
 		int newHeight = Math.max(height - trimTop - trimBottom, 0);
 		return new BlankDrawable(newWidth, newHeight);
+	}
+
+	@Override
+	public ITextureDrawable withColor(int color) {
+		return this;
+	}
+
+	@Override
+	public ITextureDrawable withAlpha(int alpha) {
+		return this;
+	}
+
+	@Override
+	public ITextureDrawable withAlphaColor(int color) {
+		return this;
 	}
 }
