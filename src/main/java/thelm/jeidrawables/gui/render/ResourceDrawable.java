@@ -4,10 +4,18 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.resources.ResourceLocation;
 
-public record ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight) implements IMaskableDrawable {
+public record ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight, int color) implements IMaskableDrawable {
+
+	public ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight) {
+		this(atlasLocation, u, v, width, height, textureWidth, textureHeight, -1);
+	}
+
+	public ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int color) {
+		this(atlasLocation, u, v, width, height, 256, 256, color);
+	}
 
 	public ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height) {
-		this(atlasLocation, u, v, width, height, 256, 256);
+		this(atlasLocation, u, v, width, height, 256, 256, -1);
 	}
 
 	@Override
@@ -23,7 +31,7 @@ public record ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int
 	@Override
 	public void draw(PoseStack poseStack, float xOffset, float yOffset, float maskTop, float maskBottom, float maskLeft, float maskRight) {
 		if(maskLeft + maskRight < width && maskTop + maskBottom < height) {
-			GuiRenderUtil.blit(poseStack, atlasLocation, xOffset + maskLeft, yOffset + maskTop, u + maskLeft, v + maskTop, width - maskLeft - maskRight, height - maskTop - maskBottom, textureWidth, textureHeight);
+			GuiRenderUtil.blit(poseStack, atlasLocation, xOffset + maskLeft, yOffset + maskTop, u + maskLeft, v + maskTop, width - maskLeft - maskRight, height - maskTop - maskBottom, textureWidth, textureHeight, color);
 		}
 	}
 
@@ -34,6 +42,6 @@ public record ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int
 		if(newWidth == 0 || newHeight == 0) {
 			return new BlankDrawable(newWidth, newHeight);
 		}
-		return new ResourceDrawable(atlasLocation, u + trimLeft, v + trimTop, newWidth, newHeight, textureWidth, textureHeight);
+		return new ResourceDrawable(atlasLocation, u + trimLeft, v + trimTop, newWidth, newHeight, textureWidth, textureHeight, color);
 	}
 }
