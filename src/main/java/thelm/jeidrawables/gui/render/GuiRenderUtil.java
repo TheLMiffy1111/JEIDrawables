@@ -22,6 +22,14 @@ import thelm.jeidrawables.mixin.GuiGraphicsAccessor;
 
 public class GuiRenderUtil {
 
+	public static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, float x, float y, float uOffset, float vOffset, float width, float height, int textureWidth, int textureHeight) {
+		blit(guiGraphics, atlasLocation, x, y, uOffset, vOffset, width, height, textureWidth, textureHeight, -1);
+	}
+
+	public static void blitSprite(GuiGraphics guiGraphics, TextureAtlasSprite sprite, float x, float y, float uOffset, float vOffset, float width, float height, int textureWidth, int textureHeight) {
+		blitSprite(guiGraphics, sprite, x, y, uOffset, vOffset, width, height, textureHeight, textureHeight, -1);
+	}
+
 	public static void blit(GuiGraphics guiGraphics, ResourceLocation atlasLocation, float x, float y, float uOffset, float vOffset, float width, float height, int textureWidth, int textureHeight, int color) {
 		float uMin = uOffset / textureWidth;
 		float uMax = (uOffset + width) / textureWidth;

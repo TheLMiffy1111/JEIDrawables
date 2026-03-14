@@ -60,7 +60,7 @@ def specVersion = "21.8"
 def vendor = "thelm"
 
 group = "thelm.jeidrawables"
-version = "21.8.4"
+version = "21.8.5"
 
 def archivesName = modName
 base.archivesName = archivesName
