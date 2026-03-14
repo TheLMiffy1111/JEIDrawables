@@ -6,10 +6,18 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
-public record SpriteDrawable(Supplier<TextureAtlasSprite> spriteSupplier, int u, int v, int width, int height, int textureWidth, int textureHeight) implements IMaskableDrawable {
+public record SpriteDrawable(Supplier<TextureAtlasSprite> spriteSupplier, int u, int v, int width, int height, int textureWidth, int textureHeight, int color) implements IMaskableDrawable {
+
+	public SpriteDrawable(Supplier<TextureAtlasSprite> spriteSupplier, int u, int v, int width, int height, int textureWidth, int textureHeight) {
+		this(spriteSupplier, u, v, width, height, textureWidth, textureHeight, -1);
+	}
+
+	public SpriteDrawable(Supplier<TextureAtlasSprite> spriteSupplier, int textureWidth, int textureHeight, int color) {
+		this(spriteSupplier, 0, 0, textureWidth, textureHeight, textureWidth, textureHeight, color);
+	}
 
 	public SpriteDrawable(Supplier<TextureAtlasSprite> spriteSupplier, int textureWidth, int textureHeight) {
-		this(spriteSupplier, 0, 0, textureWidth, textureHeight, textureWidth, textureHeight);
+		this(spriteSupplier, 0, 0, textureWidth, textureHeight, textureWidth, textureHeight, -1);
 	}
 
 	@Override
@@ -25,7 +33,7 @@ public record SpriteDrawable(Supplier<TextureAtlasSprite> spriteSupplier, int u,
 	@Override
 	public void draw(PoseStack poseStack, float xOffset, float yOffset, float maskTop, float maskBottom, float maskLeft, float maskRight) {
 		if(maskLeft + maskRight < width && maskTop + maskBottom < height) {
-			GuiRenderUtil.blitSprite(poseStack, spriteSupplier.get(), xOffset + maskLeft, yOffset + maskTop, u + maskLeft, v + maskTop, width - maskLeft - maskRight, height - maskTop - maskBottom, textureWidth, textureHeight);
+			GuiRenderUtil.blitSprite(poseStack, spriteSupplier.get(), xOffset + maskLeft, yOffset + maskTop, u + maskLeft, v + maskTop, width - maskLeft - maskRight, height - maskTop - maskBottom, textureWidth, textureHeight, color);
 		}
 	}
 
@@ -36,6 +44,6 @@ public record SpriteDrawable(Supplier<TextureAtlasSprite> spriteSupplier, int u,
 		if(newWidth == 0 || newHeight == 0) {
 			return new BlankDrawable(newWidth, newHeight);
 		}
-		return new SpriteDrawable(spriteSupplier, u + trimLeft, v + trimTop, newWidth, newHeight, textureWidth, textureHeight);
+		return new SpriteDrawable(spriteSupplier, u + trimLeft, v + trimTop, newWidth, newHeight, textureWidth, textureHeight, color);
 	}
 }
