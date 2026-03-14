@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.resources.ResourceLocation;
 
-public record ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight, int color) implements IMaskableDrawable {
+public record ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight, int color) implements ITextureDrawable {
 
 	public ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int width, int height, int textureWidth, int textureHeight) {
 		this(atlasLocation, u, v, width, height, textureWidth, textureHeight, -1);
@@ -36,12 +36,27 @@ public record ResourceDrawable(ResourceLocation atlasLocation, int u, int v, int
 	}
 
 	@Override
-	public IMaskableDrawable trim(int trimTop, int trimBottom, int trimLeft, int trimRight) {
+	public ITextureDrawable trim(int trimTop, int trimBottom, int trimLeft, int trimRight) {
 		int newWidth = Math.max(width - trimLeft - trimRight, 0);
 		int newHeight = Math.max(height - trimTop - trimBottom, 0);
 		if(newWidth == 0 || newHeight == 0) {
 			return new BlankDrawable(newWidth, newHeight);
 		}
 		return new ResourceDrawable(atlasLocation, u + trimLeft, v + trimTop, newWidth, newHeight, textureWidth, textureHeight, color);
+	}
+
+	@Override
+	public ITextureDrawable withColor(int color) {
+		return new ResourceDrawable(atlasLocation, u, v, width, height, textureWidth, textureHeight, 0xFF000000 & this.color | color);
+	}
+
+	@Override
+	public ITextureDrawable withAlpha(int alpha) {
+		return new ResourceDrawable(atlasLocation, u, v, width, height, textureWidth, textureHeight, 0xFFFFFF & color | alpha << 24);
+	}
+
+	@Override
+	public ITextureDrawable withAlphaColor(int color) {
+		return new ResourceDrawable(atlasLocation, u, v, width, height, textureWidth, textureHeight, color);
 	}
 }
