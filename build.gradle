@@ -60,7 +60,7 @@ def specVersion = "21.5"
 def vendor = "thelm"
 
 group = "thelm.jeidrawables"
-version = "21.5.5"
+version = "21.5.6"
 
 def archivesName = modName
 base.archivesName = archivesName
@@ -83,6 +83,7 @@ tasks.withType(JavaCompile).configureEach {
 
 loom {
 	silentMojangMappingsLicense()
+	accessWidenerPath = file("src/main/resources/jeidrawables.accesswidener")
 	runs {
 		configureEach {
 			property "fabric.log.console.level", "debug"
