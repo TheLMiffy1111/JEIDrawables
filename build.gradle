@@ -60,7 +60,7 @@ def specVersion = "19.3"
 def vendor = "thelm"
 
 group = "thelm.jeidrawables"
-version = "19.3.6"
+version = "19.3.7"
 
 def archivesName = modName
 base.archivesName = archivesName
@@ -83,6 +83,7 @@ tasks.withType(JavaCompile).configureEach {
 
 loom {
 	silentMojangMappingsLicense()
+	mixin.defaultRefmapName = "${modId}.refmap.json"
 	runs {
 		configureEach {
 			property "fabric.log.console.level", "debug"
